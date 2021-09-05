@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  app:
+    image: fastapi_app:${application_tag}
+    build:
+      context: application
+      args:
+        PythonVersion: ${python_version}
+        ContainerMountpointApplication: ${container_mountpoint_application}
+    volumes:
+      - "./application/:${container_mountpoint_application}"
+    environment:
+      REDIS_HOSTNAME: ${redis_container_name}
+      PORT_OF_API: ${guest_port_of_api}
+      REDIS_ADDRESS: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 15
+#      DISCORD_WEB_HOOK_URL: ${discord_web_hook_url}
+      ENV: PROD
+      TZ: "Asia/Tokyo"
+#    depends_on:
+#      - redis
+    stdin_open: true
+    tty: true
